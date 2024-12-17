@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Emotion Classification</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Emotion Analysis Tool</h1>
+        <form method="post">
+            <textarea name="conversation" rows="6" placeholder="Enter the conversation here. Use '-' before each new message."></textarea>
+            <button type="submit">Analyze Conversation</button>
+        </form>
+        <div class="chat-container">
+            {% for chat in chat_history %}
+            <div class="chat-message person{{ loop.index0 % 2 + 1 }}">
+                <div class="avatar"></div>
+                <div class="message-content" data-emotion="{{ emotions[loop.index0] }}">
+                    {{ messages[loop.index0] }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="indicators">
+            <p>Person 1 Score: {{ person1_indicator }}</p>
+            <p>Person 2 Score: {{ person2_indicator }}</p>
+        </div>
+        <div class="progress-container">
+            <progress value="{{ normalized_global_indicator }}" max="100"></progress>
+        </div>
+        <div class="indicator-label">
+            <span>Negative</span>
+            <span>Positive</span>
+        </div>
+        <div>
+            <h2>Best Emotion Found</h2>
+            <p>Emotion: {{ final_label }}</p>
+            <p>Confidence: {{ final_confidence }}</p>
+        </div>
+    </div>
+    <footer>
+        &copy; 2024 Emotion Analysis Tool. All rights reserved.
+    </footer>
+</body>
+</html>
